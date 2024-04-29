@@ -1,8 +1,0 @@
-<package name="obs-service-run" project="home:huakim:matrix">
-  <title>obs-service-run</title>
-  <description>Service for executing bash shell command</description>
-  <build>
-    <enable repository="Fedora_38"/>
-  </build>
-</package>
-
