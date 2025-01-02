@@ -6,31 +6,31 @@ License:        GPL-3.0-or-later
 URL:            https://github.com/huakim-tyk/%{name}
 Group:          Development/Tools/Building
 BuildArch:      noarch
+BuildRequires:  rpm_macro(_obs_service_dir)
+
 %description
 %{summary}.
 
-%prep
-
 %install
-%define dir %{_usr}/lib/obs/service/
-%define file %{dir}/run 
+%define file %{_obs_service_dir}/run
 %define script %{buildroot}%{file}
-mkdir -p %{buildroot}%{dir}
+mkdir -p %{buildroot}%{_obs_service_dir}
 
 cat <<'EOF' > %{script}
 #!/bin/bash
 while [ -n "$1" ];do
   case $1 in
-    --*) 
-      export "${1:2}=$2"; shift; shift;
+    --*)
+       typeset -a "${1:2}"
+       eval "${1:2}+=(\"\$2\")"
+       shift; shift;
     ;;
     *)
       shift;
     ;;
   esac
 done
- 
-eval "$command"
+eval "outdir=\"\$(realpath -s \"\${outdir:-.}\")\" ; ${command:-". \"\$sourcefile\""}"
 exit $?
 
 EOF
@@ -43,8 +43,11 @@ cat <<'EOF' > %{script}.service
   All parameters will be cast as environment variables
   ]]>
   </description>
+  <parameter name="sourcefile">
+    <description>source file that will be executed if no command given</description>
+  </parameter>
   <parameter name="command">
-    <description>command that will executed</description>
+    <description>command that will be launched</description>
   </parameter>
 </service>
 EOF
