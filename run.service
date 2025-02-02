@@ -1,0 +1,14 @@
+<service name="run">
+  <summary>Example how to create a service</summary>
+  <description><![CDATA[
+  This service will run an command from command parameter.
+  All parameters will be cast as environment variables
+  ]]>
+  </description>
+  <parameter name="sourcefile">
+    <description>source file that will be executed if no command given</description>
+  </parameter>
+  <parameter name="command">
+    <description>command that will be launched</description>
+  </parameter>
+</service>

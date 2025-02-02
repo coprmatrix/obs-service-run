@@ -8,6 +8,8 @@ Group:          Development/Tools/Building
 BuildArch:      noarch
 BuildRequires:  rpm_macro(_obs_service_dir)
 Requires:       bash
+Source0:        run.pl
+Source1:        run.service
 %description
 %{summary}.
 
@@ -15,42 +17,8 @@ Requires:       bash
 %define file %{_obs_service_dir}/run
 %define script %{buildroot}%{file}
 mkdir -p %{buildroot}%{_obs_service_dir}
-
-cat <<'EOF' > %{script}
-#!/bin/bash
-while [ -n "$1" ];do
-  case $1 in
-    --*)
-       typeset -a "${1:2}"
-       eval "${1:2}+=(\"\$2\")"
-       shift; shift;
-    ;;
-    *)
-      shift;
-    ;;
-  esac
-done
-eval "outdir=\"\$(realpath -s \"\${outdir:-.}\")\" ; ${command:-". \"\$sourcefile\""}"
-exit $?
-
-EOF
-
-cat <<'EOF' > %{script}.service
-<service name="run">
-  <summary>Example how to create a service</summary>
-  <description><![CDATA[
-  This service will run an command from command parameter.
-  All parameters will be cast as environment variables
-  ]]>
-  </description>
-  <parameter name="sourcefile">
-    <description>source file that will be executed if no command given</description>
-  </parameter>
-  <parameter name="command">
-    <description>command that will be launched</description>
-  </parameter>
-</service>
-EOF
+cp %{SOURCE0} %{script}
+cp %{SOURCE1} %{script}.service
 
 %post
 %postun

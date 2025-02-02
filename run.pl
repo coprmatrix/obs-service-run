@@ -47,7 +47,7 @@ if ($command){
     push @decls, $command;
 } elsif ($sourcefile) {
     $sourcefile = bstring($sourcefile);
-    push @decls, "source ${sourcefile}";
+    push @decls, ". ${sourcefile}";
 }
 
 $command = join("\n", @decls);
