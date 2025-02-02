@@ -7,7 +7,7 @@ URL:            https://github.com/huakim-tyk/%{name}
 Group:          Development/Tools/Building
 BuildArch:      noarch
 BuildRequires:  rpm_macro(_obs_service_dir)
-
+Requires:       bash
 %description
 %{summary}.
 
