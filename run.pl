@@ -7,8 +7,7 @@ use Cwd 'realpath';
 my %args;  # Hash to store arguments
 
 my $outdir = 1;
-my $command = "";
-my $sourcefile = "";
+my $command = 'if [[ -f "$sourcefile" ]]; then . "$sourcefile"; fi';
 
 # Process command line arguments
 while (@ARGV) {
@@ -20,8 +19,6 @@ while (@ARGV) {
             $outdir = 0;
         } elsif ($key eq "command"){
             $command = $value;
-        } elsif ($key eq "sourcefile"){
-            $sourcefile = $value;
         }
         push @{$args{$key}}, $value;  # Add the next argument to the array
     }
@@ -43,12 +40,7 @@ if ($outdir){
    push @decls, "outdir='.'";
 }
 
-if ($command){
-    push @decls, $command;
-} elsif ($sourcefile) {
-    $sourcefile = bstring($sourcefile);
-    push @decls, ". ${sourcefile}";
-}
+push @decls, $command;
 
 $command = join("\n", @decls);
 

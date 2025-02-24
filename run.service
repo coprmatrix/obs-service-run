@@ -5,9 +5,6 @@
   All parameters will be cast as environment variables
   ]]>
   </description>
-  <parameter name="sourcefile">
-    <description>source file that will be executed if no command given</description>
-  </parameter>
   <parameter name="command">
     <description>command that will be launched</description>
   </parameter>
